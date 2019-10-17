@@ -1,0 +1,24 @@
+{% extends 'articles/base.html' %}
+{% block body %}
+  <a href="{% url 'articles:index' %}">목록</a>
+  <hr>
+  <h1>{{article.title}}</h1>
+  <hr>
+  <p>{{article.content}}</p>
+  <hr>
+  <a href="{% url 'articles:update' article.pk%}">수정하기</a>
+  <a href="{% url 'articles:delete' article.pk %}">삭제하기</a>
+  <hr>
+  <form action="{% url 'articles:comment_c' article.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form }}
+    <input type="submit" value="댓글달기">
+  </form>
+  <ol>
+    {% for comment in comments %}
+      <li>{{ comment.content }}  ( {{comment.created_at}} ) <a href="{% url 'articles:comment_d' article.pk comment.pk %}">삭제</a></li>
+    {% endfor %}
+  </ol>
+  
+
+{% endblock %}
